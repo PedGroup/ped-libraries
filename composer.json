@@ -1,0 +1,14 @@
+{
+    "name": "pedestrian/ped-libraries",
+    "description": "Just a few libraries that make the development process little easier",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Pedestrian\\PedLibraries\\": "src"
+        }
+    },
+    "minimum-stability": "stable",
+	"require": {
+		"php": "^7.3"
+	}
+}
