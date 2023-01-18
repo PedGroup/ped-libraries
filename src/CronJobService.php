@@ -1,6 +1,6 @@
 <?php
 
-namespace Pedestrian\PedLibraries;
+namespace PedLibraries;
 
 abstract class CronJobService {
 
