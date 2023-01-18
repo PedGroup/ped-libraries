@@ -2,6 +2,9 @@
     "name": "pedestrian/ped-libraries",
     "description": "Just a few libraries that make the development process little easier",
     "type": "library",
+	"license": [
+		"proprietary"
+	],
     "autoload": {
         "psr-4": {
             "PedLibraries\\": "src/"
