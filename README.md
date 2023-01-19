@@ -6,7 +6,7 @@ Useful libraries and classes
 	"repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/PedGroup/ped-libraries/"
+            "url": "https://github.com/pedgroup/ped-libraries/"
         }
 	],
 	"require": {
