@@ -48,8 +48,8 @@ abstract class Term {
 		if ( is_object( $term ) and $term instanceof static ) {
 			return $term;
 		} else if ( is_scalar( $term ) ) {
-			if ( ! empty( static::$instances[ $term ] ) ) {
-				return static::$instances[ $term ];
+			if ( ! empty( static::$instances[ get_called_class() ][ $term ] ) ) {
+				return static::$instances[ get_called_class() ][ $term ];
 			} else if ( is_numeric( $term ) ) {
 				$term = get_term_by( 'term_id', $term, static::TAXONOMY );
 			} else {
@@ -58,16 +58,16 @@ abstract class Term {
 		}
 
 		if ( ! empty( $term ) and is_object( $term ) and $term->taxonomy == static::TAXONOMY ) {
-			if ( empty( static::$instances[ $term->term_id ] ) ) {
-				static::$instances[ $term->term_id ] = new static( $term );
+			if ( empty( static::$instances[ get_called_class() ][ $term->term_id ] ) ) {
+				static::$instances[ get_called_class() ][ $term->term_id ] = new static( $term );
 			}
 
-			return static::$instances[ $term->term_id ];
+			return static::$instances[ get_called_class() ][ $term->term_id ];
 		}
 	}
 
 	public static function newInstance() {
-		return static::$instances[] = new static();
+		return static::$instances[ get_called_class() ][] = new static();
 	}
 
 	public function getTermMeta( $key = '', $single = true ) {
@@ -300,7 +300,7 @@ abstract class Term {
 						$value = $obj;
 				}
 				$output[ $params['parent'] ? $params['parent'] : 0 ][ $term->term_id ] = $value;
-				$output += self::getTreeArray( array( 'parent' => $term->term_id ), $depth + 1, $fields );
+				$output                                                                += self::getTreeArray( array( 'parent' => $term->term_id ), $depth + 1, $fields );
 			}
 		}
 

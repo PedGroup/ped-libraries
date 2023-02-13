@@ -36,8 +36,8 @@ abstract class User {
 
 		if ( is_scalar( $user ) ) {
 
-			if ( ! empty( static::$instances[ $user ] ) ) {
-				return static::$instances[ $user ];
+			if ( ! empty( static::$instances[ get_called_class() ][ $user ] ) ) {
+				return static::$instances[ get_called_class() ][ $user ];
 			} else if ( is_numeric( $user ) ) {
 				$user = get_user_by( 'ID', $user );
 			} else if ( filter_var( $user, FILTER_VALIDATE_EMAIL ) ) {
@@ -47,18 +47,18 @@ abstract class User {
 
 		if ( ! empty( $user ) and is_object( $user ) and in_array( static::ROLE, $user->roles ) ) {
 
-			if ( empty( static::$instances[ $user->ID ] ) ) {
+			if ( empty( static::$instances[ get_called_class() ][ $user->ID ] ) ) {
 
-				static::$instances[ $user->ID ] = new static( $user );
+				static::$instances[ get_called_class() ][ $user->ID ] = new static( $user );
 			}
 
-			return static::$instances[ $user->ID ];
+			return static::$instances[ get_called_class() ][ $user->ID ];
 		}
 
 	}
 
 	public static function newInstance() {
-		return static::$instances[] = new static();
+		return static::$instances[ get_called_class() ][] = new static();
 	}
 
 	public static function getUsers( $args = [] ) {

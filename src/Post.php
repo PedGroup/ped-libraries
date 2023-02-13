@@ -43,8 +43,8 @@ abstract class Post {
 
 		if ( is_scalar( $post ) ) {
 
-			if ( ! empty( static::$instances[ $post ] ) ) {
-				return static::$instances[ $post ];
+			if ( ! empty( static::$instances[ get_called_class() ][ $post ] ) ) {
+				return static::$instances[ get_called_class() ][ $post ];
 			} else if ( is_numeric( $post ) ) {
 				$post = get_post( $post );
 			} else {
@@ -60,17 +60,17 @@ abstract class Post {
 
 		if ( ! empty( $post ) and is_object( $post ) and $post->post_type == static::POST_TYPE ) {
 
-			if ( empty( static::$instances[ $post->ID ] ) ) {
+			if ( empty( static::$instances[ get_called_class() ][ $post->ID ] ) ) {
 
-				static::$instances[ $post->ID ] = new static( $post );
+				static::$instances[ get_called_class() ][ $post->ID ] = new static( $post );
 			}
 
-			return static::$instances[ $post->ID ];
+			return static::$instances[ get_called_class() ][ $post->ID ];
 		}
 	}
 
 	public static function newInstance() {
-		return static::$instances[] = new static();
+		return static::$instances[ get_called_class() ][] = new static();
 	}
 
 	public static function getPosts( $args = [] ) {
@@ -364,7 +364,7 @@ abstract class Post {
 
 	public function delete( $force = false ) {
 		$result = wp_delete_post( $this->getId(), $force );
-		unset( static::$instances[ $this->getId() ] );
+		unset( static::$instances[ get_called_class() ][ $this->getId() ] );
 
 		return $result;
 	}
